@@ -1,10 +1,14 @@
+// Button.stories.jsx
+
 import React from 'react';
 import { Button } from './Button';
 
-const isRTL = new URL(window.location).searchParams.get('eyes-variation') === 'RTL';
+const eyesVar = new URL(window.location).searchParams.get('eyes-variation');
+const isRTL =  eyesVar === 'RTL';
+const isBlack = eyesVar === 'isBlack';
 
 if (isRTL) {
-  document.documentElement.setAttribute('dir', 'rtl')
+  document.documentElement.setAttribute('dir', 'rtl');
 }
 
 export default {
@@ -20,25 +24,13 @@ const Template = (args) => (<Button {...args} label="✓"> Hello World! </Button
 export const Primary = Template.bind({});
 Primary.args = {
   primary: true,
-  backgroundColor: 'blue'
+  backgroundColor: isBlack ? 'black' : 'blue'
 };
 Primary.story = {
   name: 'Primary - with variations',
-  parameters: {
-    eyes: {
-      queryParams: [
-        {name: 'RTL', value: 'isRTL=true'},
-        {name: 'RTL', value: 'isRTL=false'}
-      ]
-    }
-  }
 }
-
-export const Secondary = Template.bind({});
-Secondary.args = {
-  backgroundColor: 'salmon'
-};
-
-Secondary.story = {
-  name: 'Secondary - without variations',
+Primary.parameters = {
+    eyes: {
+      variations: ['RTL', 'LTR', 'isBlack']
+    }
 }
